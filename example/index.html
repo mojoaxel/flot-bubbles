@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Flot-Bubbles Example</title>
+
+<!-- required -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.selection.min.js"></script> -->
+
+<!-- optional -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.min.js"></script> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.navigate.min.js"></script>
+
+<!-- flot-bubbles plugin -->
+<script type="text/javascript" src="../jquery.flot.JUMlib.js"></script>
+<script type="text/javascript" src="../jquery.flot.bubbles.js"></script>
+	
+</head>
+<body>
+	<div id="plot" style="width:640px; height:320px;"></div>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var d1 = [[20,20,10], [40,50,20], [70,10,5], [80,80,7]];
+		var d2 = [[60,25,15], [70,40,6], [30,80,4]];
+		var options = { 
+			series: {
+				color: '#CCC',
+				bubbles: {
+					active: true,
+					show: true,
+					fill: true,
+					linewidth: 2,
+					bubblelabel: { show: true }
+				}
+			},
+			grid:{
+				hoverable: true,
+				clickable: true
+			}
+		};
+		var p4 = $.plot( $("#plot"), [ d1, { color: '#EEE', data: d2 }], options );
+	});
+	</script>
+</body>
+</html>

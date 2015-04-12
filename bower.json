@@ -1,0 +1,26 @@
+{
+  "name": "flot-bubbles",
+  "version": "0.3.0",
+  "homepage": "http://mojoaxel.github.io/flot-bubbles",
+  "authors": [
+    "Juergen Marsch",
+    "Alexander Wunschik"
+  ],
+  "description": "Flot Charting Library Plugin to create Bubble-Charts",
+  "main": "jquery.flot.bubbles.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "flot",
+    "plugin",
+    "bubbles"
+  ],
+  "license": [ 
+    "MIT"
+  ],
+  "ignore": [
+    "**/.*",
+    "server.js"
+  ]
+}
