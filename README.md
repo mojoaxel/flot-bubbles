@@ -98,3 +98,6 @@ Licensed under [MIT](http://opensource.org/licenses/MIT)
 
 ### 0.3.0
 * first release of Juergen Marsch's original code
+
+### 0.3.1
+* removed dependency to JUMlib

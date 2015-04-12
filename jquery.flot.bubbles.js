@@ -74,7 +74,17 @@ THE SOFTWARE.
         plot.hooks.processOptions.push(processOptions);
         function processOptions(plot,options){
             if(options.series.bubbles.active){
-                $.plot.JUMlib.data.extendEmpty(options,defaultOptions);                
+                function extendEmpty(org,ext){
+                    for(var i in ext){
+                        if(!org[i]){ org[i] = ext[i];}
+                        else{
+                            if(typeof ext[i] === "object"){
+                                extendEmpty(org[i],ext[i]);
+                            }   
+                        }
+                    }
+                }
+                extendEmpty(options,defaultOptions);
                 opt = options;
                 plot.hooks.processRawData.push(processRawData);
                 plot.hooks.drawSeries.push(drawSeries);
