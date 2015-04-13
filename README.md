@@ -101,3 +101,6 @@ Licensed under [MIT](http://opensource.org/licenses/MIT)
 
 ### 0.3.1
 * removed dependency to JUMlib
+
+### 0.3.2
+* code cleanup
