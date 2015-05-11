@@ -104,3 +104,7 @@ Licensed under [MIT](http://opensource.org/licenses/MIT)
 
 ### 0.3.2
 * code cleanup
+
+### 0.3.3
+* `series.color` can be of type `function` (thx @stesie)
+

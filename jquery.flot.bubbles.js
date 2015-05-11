@@ -2,6 +2,7 @@
  * The MIT License
 
 Copyright (c) 2010, 2011, 2012, 2013 by Juergen Marsch
+Copyright (c) 2015 by Stefan Siegl
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +26,7 @@ THE SOFTWARE.
 	"use strict";
 	
 	var pluginName = "bubbles";
-	var pluginVersion = "0.3.2";
+	var pluginVersion = "0.3.3";
 
 	var options = {
 		series: {
@@ -134,6 +135,9 @@ THE SOFTWARE.
 			y = offset.top + serie.yaxis.p2c(data[1]);
 			v = data[2];
 			r = parseInt(serie.yaxis.scale * data[2] / 2, 0);
+			if(typeof c === 'function') {
+				c = c.apply(this, data);
+			}
 			serie.bubbles.drawbubble(ctx, serie, x, y, v, r, c, overlay);
 		};
 
