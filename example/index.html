@@ -26,7 +26,10 @@
 		var d2 = [[60,25,15], [70,40,6], [30,80,4]];
 		var options = { 
 			series: {
-				color: '#CCC',
+				color: function(x, y, value) {
+					var red = 155 + value * 10;
+					return 'rgba('+red+',200,200,1)';
+				},
 				bubbles: {
 					active: true,
 					show: true,
