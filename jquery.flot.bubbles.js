@@ -134,6 +134,9 @@ THE SOFTWARE.
 			y = offset.top + serie.yaxis.p2c(data[1]);
 			v = data[2];
 			r = parseInt(serie.yaxis.scale * data[2] / 2, 0);
+			if(typeof c === 'function') {
+				c = c.apply(this, data);
+			}
 			serie.bubbles.drawbubble(ctx, serie, x, y, v, r, c, overlay);
 		};
 
