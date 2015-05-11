@@ -34,12 +34,12 @@
         <h1>
 <a id="flot-bubbles" class="anchor" href="#flot-bubbles" aria-hidden="true"><span class="octicon octicon-link"></span></a>flot-bubbles</h1>
 
-<p>Flot Charting Library Plugin create Bubble-Charts  <a href="http://mojoaxel.github.io/flot-bubbles">http://mojoaxel.github.io/flot-bubbles</a></p>
+<p>Flot plugin to create bubble charts</p>
 
 <h2>
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
 
-
+<iframe src="./example/" width="645px" height="325px" scrolling="no" seamless="seamless" style="overflow-y:hidden;"></iframe>
 
 <ul>
 <li><a href="./example/">Open Demo</a></li>
@@ -69,6 +69,10 @@
     grid<span class="pl-k">:</span>{
         hoverable<span class="pl-k">:</span> <span class="pl-c1">true</span>,
         clickable<span class="pl-k">:</span> <span class="pl-c1">true</span>
+    },
+    tooltip<span class="pl-k">:</span>{
+        show<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+        content<span class="pl-k">:</span> <span class="pl-c1">"x: %x | y: %y | value: %ct"</span>
     }
 };
 <span class="pl-k">var</span> p4 <span class="pl-k">=</span> $.plot( $(<span class="pl-s"><span class="pl-pds">"</span>#plot<span class="pl-pds">"</span></span>), [ d1, { color<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>#AAA<span class="pl-pds">'</span></span>, data<span class="pl-k">:</span> d2 }], options );</pre></div>
@@ -353,6 +357,15 @@
 <li>
 <code>series.color</code> can be of type <code>function</code> (thx <a href="https://github.com/stesie" class="user-mention">@stesie</a>)</li>
 </ul>
+
+<h3>
+<a id="040" class="anchor" href="#040" aria-hidden="true"><span class="octicon octicon-link"></span></a>0.4.0</h3>
+<ul>
+<li>support 'plothover' events</li>
+<li>support the <code>jquery.flot.tooltip</code> plugin</li>
+<li>code cleanup</li>
+</ul>
+
       </section>
     </div>
 
