@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Flot-bubbles : Flot Charting Library Plugin create Bubble-Charts  http://mojoaxel.github.io/flot-bubbles">
+    <meta name="description" content="jquery.flot.bubbles.js : Flot plugin to create bubble charts">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -34,10 +34,13 @@
         <h1>
 <a id="flot-bubbles" class="anchor" href="#flot-bubbles" aria-hidden="true"><span class="octicon octicon-link"></span></a>flot-bubbles</h1>
 
-<p>Flot Charting Library Plugin create Bubble-Charts</p>
+<p>Flot Charting Library Plugin create Bubble-Charts  <a href="http://mojoaxel.github.io/flot-bubbles">http://mojoaxel.github.io/flot-bubbles</a></p>
+
 <h2>
-<a id="interactive-example" class="anchor" href="#interactive-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
-<iframe src="./example/" width="645px" height="325px" scrolling="no" seamless="seamless" style="overflow-y:hidden;"></iframe>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
+
+
+
 <ul>
 <li><a href="./example/">Open Demo</a></li>
 <li><a href="https://github.com/mojoaxel/flot-bubbles/blob/master/example/index.html">Show example source</a></li>
@@ -45,6 +48,30 @@
 
 <h2>
 <a id="docs" class="anchor" href="#docs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Docs</h2>
+
+<div class="highlight highlight-JavaScript"><pre><span class="pl-k">var</span> d1 <span class="pl-k">=</span> [[<span class="pl-c1">20</span>,<span class="pl-c1">20</span>,<span class="pl-c1">10</span>], [<span class="pl-c1">40</span>,<span class="pl-c1">50</span>,<span class="pl-c1">20</span>], [<span class="pl-c1">70</span>,<span class="pl-c1">10</span>,<span class="pl-c1">5</span>], [<span class="pl-c1">80</span>,<span class="pl-c1">80</span>,<span class="pl-c1">15</span>]];
+<span class="pl-k">var</span> d2 <span class="pl-k">=</span> [[<span class="pl-c1">60</span>,<span class="pl-c1">25</span>,<span class="pl-c1">15</span>], [<span class="pl-c1">70</span>,<span class="pl-c1">40</span>,<span class="pl-c1">6</span>], [<span class="pl-c1">30</span>,<span class="pl-c1">80</span>,<span class="pl-c1">4</span>]];
+<span class="pl-k">var</span> options <span class="pl-k">=</span> { 
+    series<span class="pl-k">:</span> {
+        <span class="pl-c">//color: '#CCC',</span>
+        <span class="pl-en">color</span>: <span class="pl-k">function</span>(<span class="pl-smi">x</span>, <span class="pl-smi">y</span>, <span class="pl-smi">value</span>) {
+            <span class="pl-k">var</span> red <span class="pl-k">=</span> <span class="pl-c1">55</span> <span class="pl-k">+</span> value <span class="pl-k">*</span> <span class="pl-c1">10</span>;
+            <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>rgba(<span class="pl-pds">'</span></span><span class="pl-k">+</span>red<span class="pl-k">+</span><span class="pl-s"><span class="pl-pds">'</span>,50,50,1)<span class="pl-pds">'</span></span>;
+        },
+        bubbles<span class="pl-k">:</span> {
+            active<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+            show<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+            fill<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+            linewidth<span class="pl-k">:</span> <span class="pl-c1">2</span>,
+            bubblelabel<span class="pl-k">:</span> { show<span class="pl-k">:</span> <span class="pl-c1">true</span> }
+        }
+    },
+    grid<span class="pl-k">:</span>{
+        hoverable<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+        clickable<span class="pl-k">:</span> <span class="pl-c1">true</span>
+    }
+};
+<span class="pl-k">var</span> p4 <span class="pl-k">=</span> $.plot( $(<span class="pl-s"><span class="pl-pds">"</span>#plot<span class="pl-pds">"</span></span>), [ d1, { color<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>#AAA<span class="pl-pds">'</span></span>, data<span class="pl-k">:</span> d2 }], options );</pre></div>
 
 <ul>
 <li>
@@ -291,9 +318,9 @@
 <h2>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
 
-<p>Licensed under <a href="http://opensource.org/licenses/MIT">MIT</a><br>
-This plugin is based on a <a href="http://jumflot.jumware.com/examples/Experimental/Bubbles.html">plugin</a> by <a href="https://github.com/jumjum123">Juergen Marsch</a></p>
-</p>
+<p>Licensed under <a href="http://opensource.org/licenses/MIT">MIT</a></p>
+
+<p>This plugin is based on a <a href="http://jumflot.jumware.com/examples/Experimental/Bubbles.html">plugin</a> by <a href="https://github.com/jumjum123">Juergen Marsch</a></p>
 
 <h2>
 <a id="versions" class="anchor" href="#versions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Versions</h2>
@@ -332,7 +359,7 @@ This plugin is based on a <a href="http://jumflot.jumware.com/examples/Experimen
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Flot-bubbles maintained by <a href="https://github.com/mojoaxel">mojoaxel</a></p>
+        <p class="copyright">jquery.flot.bubbles.js maintained by <a href="https://github.com/mojoaxel">mojoaxel</a></p>
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
