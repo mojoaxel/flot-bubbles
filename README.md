@@ -120,7 +120,7 @@ var p4 = $.plot( $("#plot"), [ d1, { color: '#AAA', data: d2 }], options );
 
 Licensed under [MIT](http://opensource.org/licenses/MIT)
 
-This plugin is based on a [plugin](http://jumflot.jumware.com/examples/Experimental/Bubbles.html) by [Juergen Marsch](https://github.com/jumjum123)
+This plugin is based on a [plugin](https://github.com/jumjum123/JUMFlot/blob/gh-pages/javascripts/jquery.flot.bubbles.js) by [Juergen Marsch](https://github.com/jumjum123)
 
 ## Versions
 
