@@ -69,6 +69,10 @@
     grid<span class="pl-k">:</span>{
         hoverable<span class="pl-k">:</span> <span class="pl-c1">true</span>,
         clickable<span class="pl-k">:</span> <span class="pl-c1">true</span>
+    },
+    tooltip<span class="pl-k">:</span>{
+        show<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+        content<span class="pl-k">:</span> <span class="pl-c1">"x: %x | y: %y | value: %ct"</span>
     }
 };
 <span class="pl-k">var</span> p4 <span class="pl-k">=</span> $.plot( $(<span class="pl-s"><span class="pl-pds">"</span>#plot<span class="pl-pds">"</span></span>), [ d1, { color<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>#AAA<span class="pl-pds">'</span></span>, data<span class="pl-k">:</span> d2 }], options );</pre></div>
@@ -318,15 +322,9 @@
 <h2>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
 
-<<<<<<< HEAD
-<p>Licensed under <a href="http://opensource.org/licenses/MIT">MIT</a>
-This plugin is based on <a href="https://github.com/oughton">Joel Oughtons</a> <a href="http://joeloughton.com/blog/web-applications/flot-plugins-event-graphics/">"Event Graphics" plugin</a> from his <a href="https://github.com/oughton/flot-plugin-collection">flot-plugin-collection</a> witch is also licensed under MIT and GPLv2.</p>
-</p>
-=======
 <p>Licensed under <a href="http://opensource.org/licenses/MIT">MIT</a></p>
 
 <p>This plugin is based on a <a href="http://jumflot.jumware.com/examples/Experimental/Bubbles.html">plugin</a> by <a href="https://github.com/jumjum123">Juergen Marsch</a></p>
->>>>>>> Create gh-pages branch via GitHub
 
 <h2>
 <a id="versions" class="anchor" href="#versions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Versions</h2>
@@ -359,6 +357,21 @@ This plugin is based on <a href="https://github.com/oughton">Joel Oughtons</a> <
 <li>
 <code>series.color</code> can be of type <code>function</code> (thx <a href="https://github.com/stesie" class="user-mention">@stesie</a>)</li>
 </ul>
+
+<h3>
+<a id="040" class="anchor" href="#040" aria-hidden="true"><span class="octicon octicon-link"></span></a>0.4.0</h3>
+<ul>
+<li>support 'plothover' events</li>
+<li>support the <code>jquery.flot.tooltip</code> plugin</li>
+<li>code cleanup</li>
+</ul>
+
+<h3>
+<a id="041" class="anchor" href="#041" aria-hidden="true"><span class="octicon octicon-link"></span></a>0.4.1</h3>
+<ul>
+<li>bugfix if x or y == 0; (issue #2)</li>
+</ul>
+
       </section>
     </div>
 
