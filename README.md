@@ -1,12 +1,38 @@
 # flot-bubbles
 Flot Charting Library Plugin create Bubble-Charts  http://mojoaxel.github.io/flot-bubbles
 
-## Interactive Example
+## Example
 
 * [Open Demo](./example/)
 * [Show example source](https://github.com/mojoaxel/flot-bubbles/blob/master/example/index.html)
 
 ## Docs
+
+```JavaScript
+var d1 = [[20,20,10], [40,50,20], [70,10,5], [80,80,15]];
+var d2 = [[60,25,15], [70,40,6], [30,80,4]];
+var options = { 
+	series: {
+		//color: '#CCC',
+		color: function(x, y, value) {
+			var red = 55 + value * 10;
+			return 'rgba('+red+',50,50,1)';
+		},
+		bubbles: {
+			active: true,
+			show: true,
+			fill: true,
+			linewidth: 2,
+			bubblelabel: { show: true }
+		}
+	},
+	grid:{
+		hoverable: true,
+		clickable: true
+	}
+};
+var p4 = $.plot( $("#plot"), [ d1, { color: '#AAA', data: d2 }], options );
+```
 
 * **data:** Data Array specific for Bubbles chart
    * **[0]:** first data entry
@@ -94,6 +120,8 @@ Flot Charting Library Plugin create Bubble-Charts  http://mojoaxel.github.io/flo
 
 Licensed under [MIT](http://opensource.org/licenses/MIT)
 
+This plugin is based on a [plugin](http://jumflot.jumware.com/examples/Experimental/Bubbles.html) by [Juergen Marsch](https://github.com/jumjum123)
+
 ## Versions
 
 ### 0.3.0
@@ -107,4 +135,3 @@ Licensed under [MIT](http://opensource.org/licenses/MIT)
 
 ### 0.3.3
 * `series.color` can be of type `function` (thx @stesie)
-
