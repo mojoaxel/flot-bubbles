@@ -1,7 +1,7 @@
 # flot-bubbles
 Flot Charting Library Plugin create Bubble-Charts  http://mojoaxel.github.io/flot-bubbles
 
-## Interactive Example
+## Example
 
 * [Open Demo](./example/)
 * [Show example source](https://github.com/mojoaxel/flot-bubbles/blob/master/example/index.html)
