@@ -12,6 +12,7 @@
 <!-- optional -->
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.min.js"></script> -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.navigate.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/krzysu/flot.tooltip/master/js/jquery.flot.tooltip.min.js"></script>
 
 <!-- flot-bubbles plugin -->
 <script type="text/javascript" src="../jquery.flot.bubbles.js"></script>
@@ -46,6 +47,10 @@
 			xaxis: {
 				min: 10,
 				max: 90
+			},
+			tooltip: {
+				show: true,
+				content: "x: %x | y: %y | value: %ct"
 			}
 		};
 		var p4 = $.plot( $("#plot"), [ d1, { color: '#AAA', data: d2 }], options );

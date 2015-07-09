@@ -26,7 +26,7 @@ THE SOFTWARE.
 	"use strict";
 	
 	var pluginName = "bubbles";
-	var pluginVersion = "0.3.3";
+	var pluginVersion = "0.4.0";
 
 	var options = {
 		series: {
@@ -101,8 +101,11 @@ THE SOFTWARE.
 	function init(plot) {
 		var offset = null,
 			opt = null,
-			series = null;
+			series = null,
+			eventHolder = null;
+		
 		plot.hooks.processOptions.push(processOptions);
+		plot.hooks.bindEvents.push(bindEvents);
 
 		function processOptions(plot, options) {
 			if (options.series.bubbles.active) {
@@ -111,6 +114,124 @@ THE SOFTWARE.
 				plot.hooks.processRawData.push(processRawData);
 				plot.hooks.drawSeries.push(drawSeries);
 			}
+		};
+		
+		function bindEvents(plot, eHolder) {
+			eventHolder = eHolder;
+			var options = plot.getOptions();
+			if (options.series.bubbles && options.grid.hoverable) {
+				eventHolder.unbind('mousemove').mousemove(onMouseMove);
+			}
+
+			if (options.series.bubbles && options.grid.clickable) {
+				eventHolder.unbind('click').click(onClick);
+			}
+		};
+		
+		function onMouseMove(event) {
+			triggerEvent("plothover", event, function (s) { return s["hoverable"] != false; });
+		};
+	
+		function onClick(event) {
+			triggerEvent("plotclick", event, function (s) { return s["clickable"] != false; });
+		};
+		
+		function triggerEvent(eventname, event, seriesFilter) {
+			var offset = eventHolder.offset();
+			var canvasX = event.pageX - offset.left - plot.getPlotOffset().left;
+			var canvasY = event.pageY - offset.top - plot.getPlotOffset().top;
+			var pos = plot.c2p({ left: canvasX, top: canvasY });
+			var item = findNearbyItem(canvasX, canvasY, seriesFilter);
+			
+			pos.pageX = event.pageX;
+			pos.pageY = event.pageY;
+	
+			if (item) {
+				item.pageX = parseInt(item.series.xaxis.p2c(item.datapoint[0]) + offset.left + plot.getPlotOffset().left);
+				item.pageY = parseInt(item.series.yaxis.p2c(item.datapoint[1]) + offset.top + plot.getPlotOffset().top);
+			}
+	
+			plot.getPlaceholder().trigger(eventname, [ pos, item ]);
+		};
+		
+		function findNearbyItem(mouseX, mouseY, seriesFilter) {
+			var item = null;
+			var iSeries;
+			var iPoints;
+			
+			var series = plot.getData();
+			for (iSeries = series.length - 1; iSeries >= 0; --iSeries) {
+				if (!seriesFilter(series[iSeries])) {
+					continue;
+				}
+
+				var s = series[iSeries];
+				var axisx = s.xaxis;
+				var axisy = s.yaxis;
+				var points = s.datapoints.points;
+				var pointsize = s.datapoints.pointsize;
+				var mx = axisx.c2p(mouseX);
+				var my = axisy.c2p(mouseY);
+
+				if (s.bubbles.show) {
+					for (iPoints = 0; iPoints < points.length; iPoints += pointsize) {
+						var x = points[iPoints];
+						var y = points[iPoints + 1];
+						if (!x || !y) {
+							continue;
+						}
+						
+						var newmaxDistance = radiusAtPoint(s, [x,y]) || 0;
+						var newSmallDist = newmaxDistance * newmaxDistance + 1;
+						var maxx = newmaxDistance / axisx.scale;
+						var maxy = newmaxDistance / axisy.scale;
+
+						if (x - mx > maxx || x - mx < -maxx ||
+							y - my > maxy || y - my < -maxy) {
+							continue;
+						}
+
+						var dx = Math.abs(axisx.p2c(x) - mouseX);
+						var dy = Math.abs(axisy.p2c(y) - mouseY);
+						var dist = dx * dx + dy * dy;
+
+						if (dist < newSmallDist) {
+							newSmallDist = dist;
+							item = [iSeries, iPoints / pointsize];
+						}
+					}
+				}
+			}
+
+			if (item) {
+				iSeries = item[0];
+				iPoints = item[1];
+				var pointsize = series[iSeries].datapoints.pointsize;
+				
+				return {
+					datapoint: series[iSeries].datapoints.points.slice(iPoints * pointsize, (iPoints + 1) * pointsize),
+					dataIndex: iPoints,
+					series: series[iSeries],
+					seriesIndex: iSeries 
+				};
+			}
+
+			return null;
+		};
+		
+		function radiusAtPoint(series, point){
+			var points = series.datapoints.points;
+			var pointsize = series.datapoints.pointsize;
+			
+			for (var iPoints = points.length; iPoints > 1; iPoints -= pointsize) {
+				var x = points[iPoints-2];
+				var y = points[iPoints-1];
+				if(point[0] == x && point[1] == y) {
+					var radius_index = (iPoints-2)/pointsize;
+					return parseInt(series.yaxis.scale * series.data[radius_index][2]/2, 0);
+				}
+			}
+			return 0;
 		};
 		
 		function processRawData(plot,s,data,datapoints){
