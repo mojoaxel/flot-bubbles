@@ -139,3 +139,4 @@ This plugin is based on a [plugin](https://github.com/jumjum123/JUMFlot/blob/gh-
 ### 0.4.0
 * support 'plothover' events
 * support the `jquery.flot.tooltip` plugin
+* code cleanup

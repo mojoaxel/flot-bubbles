@@ -3,6 +3,7 @@
 
 Copyright (c) 2010, 2011, 2012, 2013 by Juergen Marsch
 Copyright (c) 2015 by Stefan Siegl
+Copyright (c) 2015 by Alexander Wunschik
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +23,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-(function ($) {
+(function($) {
 	"use strict";
-	
+
 	var pluginName = "bubbles";
 	var pluginVersion = "0.4.0";
 
@@ -77,10 +78,8 @@ THE SOFTWARE.
 			var xtext, ytext, vsize, f;
 			ctx.fillStyle = serie.bubbles.bubblelabel.fillStyle;
 			f = serie.xaxis.font;
-			//ctx.font = f.style + " " + f.variant + " " + f.weight + " " + f.size + "px '" + f.family + "'";
 			vsize = ctx.measureText(v);
 			xtext = x - vsize.width / 2;
-			//ytext = y + f.size/2;
 			ytext = y + 4;
 			ctx.fillText(v, xtext, ytext);
 		}
@@ -99,11 +98,11 @@ THE SOFTWARE.
 	};
 
 	function init(plot) {
-		var offset = null,
-			opt = null,
-			series = null,
-			eventHolder = null;
-		
+		var offset = null;
+		var opt = null;
+		var series = null;
+		var eventHolder = null;
+
 		plot.hooks.processOptions.push(processOptions);
 		plot.hooks.bindEvents.push(bindEvents);
 
@@ -111,11 +110,10 @@ THE SOFTWARE.
 			if (options.series.bubbles.active) {
 				extendEmpty(options, defaultOptions);
 				opt = options;
-				plot.hooks.processRawData.push(processRawData);
 				plot.hooks.drawSeries.push(drawSeries);
 			}
 		};
-		
+
 		function bindEvents(plot, eHolder) {
 			eventHolder = eHolder;
 			var options = plot.getOptions();
@@ -127,38 +125,45 @@ THE SOFTWARE.
 				eventHolder.unbind('click').click(onClick);
 			}
 		};
-		
+
 		function onMouseMove(event) {
-			triggerEvent("plothover", event, function (s) { return s["hoverable"] != false; });
+			triggerEvent("plothover", event, function(s) {
+				return s["hoverable"] != false;
+			});
 		};
-	
+
 		function onClick(event) {
-			triggerEvent("plotclick", event, function (s) { return s["clickable"] != false; });
+			triggerEvent("plotclick", event, function(s) {
+				return s["clickable"] != false;
+			});
 		};
-		
+
 		function triggerEvent(eventname, event, seriesFilter) {
 			var offset = eventHolder.offset();
 			var canvasX = event.pageX - offset.left - plot.getPlotOffset().left;
 			var canvasY = event.pageY - offset.top - plot.getPlotOffset().top;
-			var pos = plot.c2p({ left: canvasX, top: canvasY });
+			var pos = plot.c2p({
+				left: canvasX,
+				top: canvasY
+			});
 			var item = findNearbyItem(canvasX, canvasY, seriesFilter);
-			
+
 			pos.pageX = event.pageX;
 			pos.pageY = event.pageY;
-	
+
 			if (item) {
 				item.pageX = parseInt(item.series.xaxis.p2c(item.datapoint[0]) + offset.left + plot.getPlotOffset().left);
 				item.pageY = parseInt(item.series.yaxis.p2c(item.datapoint[1]) + offset.top + plot.getPlotOffset().top);
 			}
-	
-			plot.getPlaceholder().trigger(eventname, [ pos, item ]);
+
+			plot.getPlaceholder().trigger(eventname, [pos, item]);
 		};
-		
+
 		function findNearbyItem(mouseX, mouseY, seriesFilter) {
 			var item = null;
 			var iSeries;
 			var iPoints;
-			
+
 			var series = plot.getData();
 			for (iSeries = series.length - 1; iSeries >= 0; --iSeries) {
 				if (!seriesFilter(series[iSeries])) {
@@ -180,8 +185,8 @@ THE SOFTWARE.
 						if (!x || !y) {
 							continue;
 						}
-						
-						var newmaxDistance = radiusAtPoint(s, [x,y]) || 0;
+
+						var newmaxDistance = radiusAtPoint(s, [x, y]) || 0;
 						var newSmallDist = newmaxDistance * newmaxDistance + 1;
 						var maxx = newmaxDistance / axisx.scale;
 						var maxy = newmaxDistance / axisy.scale;
@@ -207,110 +212,53 @@ THE SOFTWARE.
 				iSeries = item[0];
 				iPoints = item[1];
 				var pointsize = series[iSeries].datapoints.pointsize;
-				
+
 				return {
 					datapoint: series[iSeries].datapoints.points.slice(iPoints * pointsize, (iPoints + 1) * pointsize),
 					dataIndex: iPoints,
 					series: series[iSeries],
-					seriesIndex: iSeries 
+					seriesIndex: iSeries
 				};
 			}
 
 			return null;
 		};
-		
-		function radiusAtPoint(series, point){
+
+		function radiusAtPoint(series, point) {
 			var points = series.datapoints.points;
 			var pointsize = series.datapoints.pointsize;
-			
+
 			for (var iPoints = points.length; iPoints > 1; iPoints -= pointsize) {
-				var x = points[iPoints-2];
-				var y = points[iPoints-1];
-				if(point[0] == x && point[1] == y) {
-					var radius_index = (iPoints-2)/pointsize;
-					return parseInt(series.yaxis.scale * series.data[radius_index][2]/2, 0);
+				var x = points[iPoints - 2];
+				var y = points[iPoints - 1];
+				if (point[0] == x && point[1] == y) {
+					var radius_index = (iPoints - 2) / pointsize;
+					return parseInt(series.yaxis.scale * series.data[radius_index][2] / 2, 0);
 				}
 			}
 			return 0;
 		};
-		
-		function processRawData(plot,s,data,datapoints){
-			if(s.bubbles.show == true){
-				//s.nearBy.drawHover = drawHoverBubbles; 
-				//s.nearBy.findItem = findNearbyItemBubbles;
-			}
-		};
 
-		function drawSeries(plot, ctx, serie) {
-			if (serie.bubbles.show) {
+		function drawSeries(plot, ctx, series) {
+			if (series.bubbles.show) {
 				offset = plot.getPlotOffset();
-				for (var j = 0; j < serie.data.length; j++) {
-					drawbubble(ctx, serie, serie.data[j], serie.color);
+				for (var iPoints = 0; iPoints < series.data.length; iPoints++) {
+					drawbubble(ctx, series, series.data[iPoints], series.color);
 				}
 			}
 		};
 
-		function drawbubble(ctx, serie, data, c, overlay) {
-			var x, y, r, v;
-			x = offset.left + serie.xaxis.p2c(data[0]);
-			y = offset.top + serie.yaxis.p2c(data[1]);
-			v = data[2];
-			r = parseInt(serie.yaxis.scale * data[2] / 2, 0);
-			if(typeof c === 'function') {
+		function drawbubble(ctx, series, data, c, overlay) {
+			var x = offset.left + series.xaxis.p2c(data[0]);
+			var y = offset.top + series.yaxis.p2c(data[1]);
+			var v = data[2];
+			var r = parseInt(series.yaxis.scale * data[2] / 2, 0);
+			if (typeof c === 'function') {
 				c = c.apply(this, data);
 			}
-			serie.bubbles.drawbubble(ctx, serie, x, y, v, r, c, overlay);
-		};
+			series.bubbles.drawbubble(ctx, series, x, y, v, r, c, overlay);
+		}
 
-		function findNearbyItemBubbles(mouseX, mouseY, i, serie) {
-			var item = null;
-			if (opt.series.justEditing) {
-				if (opt.series.justEditing[1].seriesIndex === i) {
-					item = findNearbyItemEdit(mouseX, mouseY, i, serie);
-				}
-			} else {
-				if (opt.grid.editable) {
-					item = findNearbyItemForEdit(mouseX, mouseY, i, serie);
-				} else {
-					item = findNearbyItem(mouseX, mouseY, i, serie);
-				}
-			}
-			return item;
-
-			function findNearbyItemEdit(mouseX, mouseY, i, serie) {}
-		};
-
-		function findNearbyItemBubblesOld(mouseX, mouseY, i, serie) {
-			var item = null;
-			if (!serie.justEditing) {
-				item = findNearbyItem(mouseX, mouseY, i, serie);
-			}
-			return item;
-		};
-
-		function findNearbyItemOld(mouseX, mouseY, i, serie) {
-			var item = null;
-			if (serie.bubbles.show) {
-				for (var j = 0; j < serie.data.length; j++) {
-					var dataitem = serie.data[j];
-					var dx = Math.abs(axes.xaxis.p2c(dataitem[0]) - mouseX),
-						dy = Math.abs(axes.yaxis.p2c(dataitem[1]) - mouseY),
-						dist = Math.sqrt(dx * dx + dy * dy);
-					if (dist <= dataitem[2]) {
-						item = [i, j];
-					}
-				}
-				return item;
-			}
-		};
-
-		function drawHoverBubbles(octx, serie, point, dataIndex, edit) {
-			octx.save();
-			octx.translate(-offset.left, -offset.top);
-			var c = "rgba(255, 255, 255, " + serie.bubbles.highlight.opacity + ")";
-			drawbubble(octx, serie, serie.data[dataIndex], c, true);
-			octx.restore();
-		};
 	};
 
 	$.plot.plugins.push({
