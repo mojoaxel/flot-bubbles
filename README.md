@@ -137,6 +137,9 @@ This plugin is based on a [plugin](https://github.com/jumjum123/JUMFlot/blob/gh-
 * `series.color` can be of type `function` (thx @stesie)
 
 ### 0.4.0
-* support 'plothover' events
+* support 'plothover' events; (issue #2)
 * support the `jquery.flot.tooltip` plugin
 * code cleanup
+
+### 0.4.1
+* bugfix if x or y == 0; (issue #2)

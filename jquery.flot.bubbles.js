@@ -27,7 +27,7 @@ THE SOFTWARE.
 	"use strict";
 
 	var pluginName = "bubbles";
-	var pluginVersion = "0.4.0";
+	var pluginVersion = "0.4.1";
 
 	var options = {
 		series: {
@@ -182,7 +182,7 @@ THE SOFTWARE.
 					for (iPoints = 0; iPoints < points.length; iPoints += pointsize) {
 						var x = points[iPoints];
 						var y = points[iPoints + 1];
-						if (!x || !y) {
+						if (typeof x != 'number' || typeof y != 'number') {
 							continue;
 						}
 
