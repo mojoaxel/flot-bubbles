@@ -27,7 +27,7 @@ THE SOFTWARE.
 	"use strict";
 
 	var pluginName = "bubbles";
-	var pluginVersion = "0.4.1";
+	var pluginVersion = "0.4.2";
 
 	var options = {
 		series: {
@@ -99,17 +99,16 @@ THE SOFTWARE.
 
 	function init(plot) {
 		var offset = null;
-		var opt = null;
 		var series = null;
 		var eventHolder = null;
 
 		plot.hooks.processOptions.push(processOptions);
 		plot.hooks.bindEvents.push(bindEvents);
+		plot.hooks.shutdown.push(unbindEvents);
 
 		function processOptions(plot, options) {
 			if (options.series.bubbles.active) {
 				extendEmpty(options, defaultOptions);
-				opt = options;
 				plot.hooks.drawSeries.push(drawSeries);
 			}
 		};
@@ -117,13 +116,18 @@ THE SOFTWARE.
 		function bindEvents(plot, eHolder) {
 			eventHolder = eHolder;
 			var options = plot.getOptions();
-			if (options.series.bubbles && options.grid.hoverable) {
-				eventHolder.unbind('mousemove').mousemove(onMouseMove);
+			if (options.series.bubbles.show && options.grid.hoverable) {
+				eventHolder.bind('mousemove', onMouseMove);
 			}
 
-			if (options.series.bubbles && options.grid.clickable) {
-				eventHolder.unbind('click').click(onClick);
+			if (options.series.bubbles.show && options.grid.clickable) {
+				eventHolder.bind('click', onClick);
 			}
+		};
+		
+		function unbindEvents(plot, eventHolder){
+			eventHolder.unbind("mousemove", onMouseMove);
+			eventHolder.unbind("click", onClick);
 		};
 
 		function onMouseMove(event) {
@@ -155,7 +159,7 @@ THE SOFTWARE.
 				item.pageX = parseInt(item.series.xaxis.p2c(item.datapoint[0]) + offset.left + plot.getPlotOffset().left);
 				item.pageY = parseInt(item.series.yaxis.p2c(item.datapoint[1]) + offset.top + plot.getPlotOffset().top);
 			}
-
+			
 			plot.getPlaceholder().trigger(eventname, [pos, item]);
 		};
 

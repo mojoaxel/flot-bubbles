@@ -143,3 +143,6 @@ This plugin is based on a [plugin](https://github.com/jumjum123/JUMFlot/blob/gh-
 
 ### 0.4.1
 * bugfix if x or y == 0; (issue #2)
+
+### 0.4.2
+* bugfix: only load plugin if options.series.bubbles.active is set; (issue #3)
