@@ -60,6 +60,7 @@ var p4 = $.plot( $("#plot"), [ d1, { color: '#AAA', data: d2 }], options );
          * **findItem:** Function call to find item under Cursor. Is overwritten during processRawData hook. This would be the place to add your own find function, which will not be overwritten. (findNearbyItemDefault(mouseX,mouseY,i,serie))
          * **drawEdit:** function to draw edit marker. It is defined in jquery.flot.mouse plugin, and is overwritten in plugin to support specific editmarkers (drawEditDefault(octx,x,y,serie))
          * **drawHover:** Function to draw overlay in case of hover a item. Is overwritten during processRawData hook. This would be the place to add your own hover drawing function. (drawHoverDefault(octx,serie,dataIndex))
+      * **findMode:** Choose between selecting either the most nearby bubble, or the first one that is encountered. (nearby)
 
 ### Options
 
