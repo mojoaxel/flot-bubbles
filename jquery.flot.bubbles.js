@@ -43,7 +43,8 @@ THE SOFTWARE.
 				bubblelabel: {
 					show: false,
 					fillStyle: "black"
-				}
+				},
+				findMode: 'nearest'
 			}
 		}
 	};
@@ -210,6 +211,11 @@ THE SOFTWARE.
 						}
 					}
 				}
+
+				if (s.bubbles.findMode === 'first' && item) {
+					break;
+				}
+
 			}
 
 			if (item) {
