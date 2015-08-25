@@ -37,7 +37,8 @@ THE SOFTWARE.
 				fill: true,
 				lineWidth: 2,
 				highlight: {
-					opacity: 0.5
+					opacity: 0.5,
+					show: false
 				},
 				drawbubble: drawbubbleDefault,
 				bubblelabel: {
@@ -275,10 +276,16 @@ THE SOFTWARE.
 		}
 
 		function drawOverlay(plot, octx) {
-			var i, hi;
-			for (i = 0; i < highlights.length; ++i) {
-				hi = highlights[i];
-				drawBubbleOverlay(hi.series, hi.point, octx);
+
+			var data = plot.getOptions();
+
+			// only render highlights if enabled
+			if (data.series.bubbles.highlight.show === true) {
+				var i, hi;
+				for (i = 0; i < highlights.length; ++i) {
+					hi = highlights[i];
+					drawBubbleOverlay(hi.series, hi.point, octx);
+				}
 			}
 		}
 
