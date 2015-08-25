@@ -49,6 +49,7 @@ var p4 = $.plot( $("#plot"), [ d1, { color: '#AAA', data: d2 }], options );
       * **lineWidth:** Line width of circle if fill is false (2)
       * **highlight:** Used to highlight in case of HOVER
          * **opacity:** only Opacity is supported for Highlighting (yet) (0.5)
+         * **show:** enable highlighting on hover (false)
       * **drawbubble:** Function call which is used for drawing of one bar for Bubble. This can be replaced by user defined function. Take a closer look to source of examples to see more. (drawbubbleDefault(ctx,serie,x,y,v,r,c,overlay))
       * **bubblelabel:** Specific options how to show label in bubbles
          * **show:** Switches labels on (or off) (false)
@@ -147,3 +148,6 @@ This plugin is based on a [plugin](https://github.com/jumjum123/JUMFlot/blob/gh-
 
 ### 0.4.2
 * bugfix: only load plugin if options.series.bubbles.active is set; (issue #3)
+
+### 0.4.3
+* bugfix: highlight bubbles on hover; (issues #5, #6)
