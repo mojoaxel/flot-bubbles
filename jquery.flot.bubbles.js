@@ -102,10 +102,12 @@ THE SOFTWARE.
 		var offset = null;
 		var series = null;
 		var eventHolder = null;
+		var highlights = [];
 
 		plot.hooks.processOptions.push(processOptions);
 		plot.hooks.bindEvents.push(bindEvents);
 		plot.hooks.shutdown.push(unbindEvents);
+		plot.hooks.drawOverlay.push(drawOverlay);
 
 		function processOptions(plot, options) {
 			if (options.series.bubbles.active) {
@@ -157,10 +159,13 @@ THE SOFTWARE.
 			pos.pageY = event.pageY;
 
 			if (item) {
+				highlight(item.series, item.datapoint);
 				item.pageX = parseInt(item.series.xaxis.p2c(item.datapoint[0]) + offset.left + plot.getPlotOffset().left);
 				item.pageY = parseInt(item.series.yaxis.p2c(item.datapoint[1]) + offset.top + plot.getPlotOffset().top);
+			} else {
+				unhighlight(null, null);
 			}
-			
+
 			plot.getPlaceholder().trigger(eventname, [pos, item]);
 		};
 
@@ -267,6 +272,92 @@ THE SOFTWARE.
 				c = c.apply(this, data);
 			}
 			series.bubbles.drawbubble(ctx, series, x, y, v, r, c, overlay);
+		}
+
+		function drawOverlay(plot, octx) {
+			var i, hi;
+			for (i = 0; i < highlights.length; ++i) {
+				hi = highlights[i];
+				drawBubbleOverlay(hi.series, hi.point, octx);
+			}
+		}
+
+		function drawBubbleOverlay(series, point, octx) {
+
+			var x = point[0], y = point[1],
+				axisx = series.xaxis, axisy = series.yaxis,
+				highlightOpacity = series.bubbles.highlight.opacity;
+
+			if (x < axisx.min || x > axisx.max || y < axisy.min || y > axisy.max)
+				return;
+
+			octx.lineWidth = 1;
+			octx.strokeStyle = "rgba(0, 0, 0, " + highlightOpacity + ")";
+			octx.fillStyle = "rgba(255, 255, 255, " + highlightOpacity + ")";
+
+			var radius = radiusAtPoint(series, point);
+
+			x = offset.left + axisx.p2c(x);
+			y = offset.top + axisy.p2c(y);
+
+			octx.beginPath();
+			octx.arc(x, y, radius, 0, 2 * Math.PI, false);
+			octx.closePath();
+			octx.fill();
+			octx.stroke();
+		}
+
+		function highlight(s, point, auto) {
+			highlights = [];
+			plot.triggerRedrawOverlay();
+
+			if (typeof s == "number")
+				s = series[s];
+
+			if (typeof point == "number") {
+				var ps = s.datapoints.pointsize;
+				point = s.datapoints.points.slice(ps * point, ps * (point + 1));
+			}
+
+			var i = indexOfHighlight(s, point);
+			if (i == -1) {
+				highlights.push({ series: s, point: point, auto: auto });
+
+				plot.triggerRedrawOverlay();
+			}
+		}
+
+		function unhighlight(s, point) {
+			if (s == null && point == null) {
+				highlights = [];
+				plot.triggerRedrawOverlay();
+				return;
+			}
+
+			if (typeof s == "number")
+				s = series[s];
+
+			if (typeof point == "number") {
+				var ps = s.datapoints.pointsize;
+				point = s.datapoints.points.slice(ps * point, ps * (point + 1));
+			}
+
+			var i = indexOfHighlight(s, point);
+			if (i != -1) {
+				highlights.splice(i, 1);
+
+				plot.triggerRedrawOverlay();
+			}
+		}
+
+		function indexOfHighlight(s, p) {
+			for (var i = 0; i < highlights.length; ++i) {
+				var h = highlights[i];
+				if (h.series == s && h.point[0] == p[0]
+					&& h.point[1] == p[1])
+					return i;
+			}
+			return -1;
 		}
 
 	};
