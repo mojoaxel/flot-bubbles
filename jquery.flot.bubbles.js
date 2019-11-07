@@ -251,9 +251,9 @@ THE SOFTWARE.
 				if (point[0] == x && point[1] == y) {
 					var radius_index = (iPoints - 2) / pointsize;
 					let r = parseInt(series.yaxis.scale * series.data[radius_index][2] / 2, 0);
-                    if (series.bubbles.radiusCallback && (typeof (series.bubbles.radiusCallback) == "function"))
-                        r = series.bubbles.radiusCallback(r);
-                    return r;
+					if (series.bubbles.radiusCallback && (typeof (series.bubbles.radiusCallback) == "function"))
+						r = series.bubbles.radiusCallback(r);
+					return r;
 				}
 			}
 			return 0;
@@ -271,10 +271,10 @@ THE SOFTWARE.
 		function drawbubble(ctx, series, data, c, overlay) {
 			var x = offset.left + series.xaxis.p2c(data[0]);
 			var y = offset.top + series.yaxis.p2c(data[1]);
-            var v = data[2];
-            var r = parseInt(series.yaxis.scale * data[2] / 2, 0);
-            if (series.bubbles.radiusCallback && (typeof (series.bubbles.radiusCallback) == "function"))
-                r = series.bubbles.radiusCallback(r);
+			var v = data[2];
+			var r = parseInt(series.yaxis.scale * data[2] / 2, 0);
+			if (series.bubbles.radiusCallback && (typeof (series.bubbles.radiusCallback) == "function"))
+				r = series.bubbles.radiusCallback(r);
 			if (typeof c === 'function') {
 				c = c.apply(this, data);
 			}
