@@ -23,7 +23,8 @@ var options = {
 			show: true,
 			fill: true,
 			linewidth: 2,
-			bubblelabel: { show: true }
+			bubblelabel: { show: true },
+			radiusCallback: function(r) { return r/ 2; }
 		}
 	},
 	grid:{
@@ -62,6 +63,7 @@ var p4 = $.plot( $("#plot"), [ d1, { color: '#AAA', data: d2 }], options );
          * **drawEdit:** function to draw edit marker. It is defined in jquery.flot.mouse plugin, and is overwritten in plugin to support specific editmarkers (drawEditDefault(octx,x,y,serie))
          * **drawHover:** Function to draw overlay in case of hover a item. Is overwritten during processRawData hook. This would be the place to add your own hover drawing function. (drawHoverDefault(octx,serie,dataIndex))
       * **findMode:** Choose between selecting either the most nearby bubble, or the first one that is encountered. (nearby)
+      * **radiusCallback:** Callback function that can be used to change the size of the drawn bubble. Useful if you want to put big values into your chart but don't want the bubbles to cover up big parts of the chart
 
 ### Options
 
@@ -118,6 +120,19 @@ var p4 = $.plot( $("#plot"), [ d1, { color: '#AAA', data: d2 }], options );
    * **clickable** [true] boolean
    * **editable** [true] boolean
 
+#### Radius modification
+
+* **series**
+   * **bubbles**
+      * **active:** [true] boolean
+      * **show:** [true] boolean
+      * **fill:** [true] boolean
+      * **lineWidth:** [2] number
+      * **radiusCallback:** function
+* **grid**
+   * **hoverable:** [true] boolean
+   * **clickable:** [true] boolean
+
 ## License
 
 Licensed under [MIT](http://opensource.org/licenses/MIT)
@@ -151,3 +166,6 @@ This plugin is based on a [plugin](https://github.com/jumjum123/JUMFlot/blob/gh-
 
 ### 0.4.3
 * bugfix: highlight bubbles on hover; (issues #5, #6)
+
+### 0.4.4
+* added `radiusCallback`

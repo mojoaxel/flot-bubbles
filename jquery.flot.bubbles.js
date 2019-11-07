@@ -28,7 +28,7 @@ THE SOFTWARE.
 	"use strict";
 
 	var pluginName = "bubbles";
-	var pluginVersion = "0.4.2";
+	var pluginVersion = "0.4.3";
 
 	var options = {
 		series: {
@@ -250,7 +250,10 @@ THE SOFTWARE.
 				var y = points[iPoints - 1];
 				if (point[0] == x && point[1] == y) {
 					var radius_index = (iPoints - 2) / pointsize;
-					return parseInt(series.yaxis.scale * series.data[radius_index][2] / 2, 0);
+					let r = parseInt(series.yaxis.scale * series.data[radius_index][2] / 2, 0);
+					if (series.bubbles.radiusCallback && (typeof (series.bubbles.radiusCallback) == "function"))
+						r = series.bubbles.radiusCallback(r);
+					return r;
 				}
 			}
 			return 0;
@@ -270,6 +273,8 @@ THE SOFTWARE.
 			var y = offset.top + series.yaxis.p2c(data[1]);
 			var v = data[2];
 			var r = parseInt(series.yaxis.scale * data[2] / 2, 0);
+			if (series.bubbles.radiusCallback && (typeof (series.bubbles.radiusCallback) == "function"))
+				r = series.bubbles.radiusCallback(r);
 			if (typeof c === 'function') {
 				c = c.apply(this, data);
 			}
