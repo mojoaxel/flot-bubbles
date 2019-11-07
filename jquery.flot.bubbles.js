@@ -28,7 +28,7 @@ THE SOFTWARE.
 	"use strict";
 
 	var pluginName = "bubbles";
-	var pluginVersion = "0.4.2";
+	var pluginVersion = "0.4.3";
 
 	var options = {
 		series: {
