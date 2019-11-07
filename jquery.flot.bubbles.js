@@ -5,6 +5,7 @@ Copyright (c) 2010, 2011, 2012, 2013 by Juergen Marsch
 Copyright (c) 2015 by Alexander Wunschik
 Copyright (c) 2015 by Stefan Siegl
 Copyright (c) 2015 by Pascal Vervest
+Copyright (c) 2019 by Andreas Balster
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +29,7 @@ THE SOFTWARE.
 	"use strict";
 
 	var pluginName = "bubbles";
-	var pluginVersion = "0.4.3";
+	var pluginVersion = "0.4.4";
 
 	var options = {
 		series: {

@@ -8,7 +8,7 @@ Flot plugin to create bubble charts
 
 ## Docs
 
-```JavaScript
+```js
 var d1 = [[20,20,10], [40,50,20], [70,10,5], [80,80,15]];
 var d2 = [[60,25,15], [70,40,6], [30,80,4]];
 var options = { 
