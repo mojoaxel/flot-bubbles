@@ -12,6 +12,10 @@
     "type": "git",
     "url": "git+https://github.com/mojoaxel/flot-bubbles.git"
   },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/mojoaxel"
+  },
   "keywords": [
     "Flot",
     "chart",
